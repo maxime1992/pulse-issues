@@ -8,8 +8,6 @@ import { getAllIssuesFromMultipleStrings } from './issues/issues';
 import { FetchedIssue, IssuesProvider, ParsedIssue } from './issues/issues.interface';
 
 export class PulseIssueProject {
-  constructor(private glob: string) {}
-
   public getIssuesForProviders(isuesProviders: IssuesProvider[]): Observable<FetchedIssue[]> {
     const filesList$ = getFilesListFromGlob('!(node_modules)/**/*.ts');
 
