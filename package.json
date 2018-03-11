@@ -1,6 +1,6 @@
 {
   "name": "pulse-issues",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "description": "",
   "keywords": [],
   "main": "dist/pulse-issues.umd.js",
@@ -25,13 +25,14 @@
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "test:prod": "yarn run lint && yarn run test --coverage --no-cache",
     "deploy-docs": "ts-node tools/gh-pages-publish",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "commit": "git-cz",
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -44,7 +45,7 @@
     },
     "validate-commit-msg": {
       "types": "conventional-commit-types",
-      "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+      "helpMessage": "Use \"yarn run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     }
   },
   "jest": {
@@ -107,7 +108,7 @@
     "rollup-plugin-node-resolve": "3.2.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rollup-plugin-typescript2": "0.12.0",
-    "semantic-release": "12.4.1",
+    "semantic-release": "15.0.2",
     "ts-jest": "22.4.1",
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
@@ -115,6 +116,7 @@
     "tslint-config-standard": "7.0.0",
     "typedoc": "0.11.1",
     "typescript": "2.7.2",
-    "validate-commit-msg": "2.14.0"
+    "validate-commit-msg": "2.14.0",
+    "travis-deploy-once": "4.4.0"
   }
 }
