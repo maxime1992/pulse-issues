@@ -70,8 +70,7 @@
         "statements": 5
       }
     },
-    "collectCoverage": true,
-    "mapCoverage": true
+    "collectCoverage": true
   },
   "dependencies": {
     "chalk": "2.3.2",
