@@ -18,6 +18,9 @@
   "engines": {
     "node": ">=6.0.0"
   },
+  "bin": {
+    "pulse-issues": "./dist/pulse-issues.umd.js"
+  },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
