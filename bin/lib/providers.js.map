@@ -1,1 +1,0 @@
-{"version":3,"file":"providers.js","sourceRoot":"","sources":["../../src/providers.ts"],"names":[],"mappings":";;AAEa,QAAA,SAAS,GAAsC;IAC1D,MAAM,EAAE;QACN,IAAI,EAAE,QAAQ;QACd,OAAO,EAAE,oBAAoB;QAC7B,QAAQ,EAAE,sEAAsE;QAChF,WAAW,EAAE,qDAAqD;KACnE;IACD,MAAM,EAAE;QACN,IAAI,EAAE,QAAQ;QACd,OAAO,EAAE,oBAAoB;QAC7B,QAAQ,EAAE,sEAAsE;QAChF,WAAW,EAAE,qDAAqD;KACnE;CACF,CAAC"}
