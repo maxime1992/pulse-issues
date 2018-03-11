@@ -19,7 +19,7 @@
     "node": ">=6.0.0"
   },
   "bin": {
-    "pulse-issues": "./dist/pulse-issues.umd.js"
+    "pulse-issues": "./bin/index.js"
   },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
@@ -111,6 +111,7 @@
     "rollup-plugin-sourcemaps": "0.4.2",
     "rollup-plugin-typescript2": "0.12.0",
     "semantic-release": "15.0.2",
+    "travis-deploy-once": "4.4.0",
     "ts-jest": "22.4.1",
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
@@ -118,7 +119,6 @@
     "tslint-config-standard": "7.0.0",
     "typedoc": "0.11.1",
     "typescript": "2.7.2",
-    "validate-commit-msg": "2.14.0",
-    "travis-deploy-once": "4.4.0"
+    "validate-commit-msg": "2.14.0"
   }
 }
