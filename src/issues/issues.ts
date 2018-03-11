@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import nodeFetch from 'node-fetch';
 import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -5,6 +6,7 @@ import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import splitLines from 'split-lines';
+import { table } from 'table';
 
 import { FetchedIssue, IssuesProvider, IssueStatus, ParsedIssue } from './issues.interface';
 
@@ -91,3 +93,29 @@ export const getIssuesFromString = (
 
   return issues.map(issue => fetchIssueStatus(issue));
 };
+
+const mapStatusColors = {
+  [IssueStatus.OPEN]: chalk.bgGreen.white,
+  [IssueStatus.CLOSED]: chalk.bgMagenta.white,
+  [IssueStatus.NOT_FOUND]: chalk.bgYellow.white,
+  [IssueStatus.ERROR]: chalk.bgRed.white,
+  [IssueStatus.UNKNOWN]: chalk.bgBlack.white,
+};
+
+const setColorByStatus = (status: IssueStatus) => mapStatusColors[status](status);
+
+const getIssuesAsTable = (issues: FetchedIssue[]): string => {
+  const formatAndApplyColorOnStatus = issues.reduce<any>(
+    (acc, issue) => [...acc, Object.values({ ...issue, status: setColorByStatus(issue.status) })],
+    [],
+  );
+
+  const header: string[] = ['Owner', 'Repo', 'ID', 'Status'].map(title =>
+    chalk.blueBright.bold(title),
+  );
+
+  return table([header, ...formatAndApplyColorOnStatus]);
+};
+
+export const displayIssuesAsTable = (issues: FetchedIssue[]) =>
+  console.log(getIssuesAsTable(issues));
