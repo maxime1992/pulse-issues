@@ -25,7 +25,7 @@
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "dist-to-bin": "mv ./dist/* ./bin",
+    "dist-to-bin": "mv ./dist ./bin && cp ./src/index.js ./bin",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest",
     "test:watch": "jest --watch",
