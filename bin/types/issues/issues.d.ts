@@ -1,0 +1,10 @@
+import { Observable } from 'rxjs/Observable';
+import { FetchedIssue, IssuesProvider, ParsedIssue } from './issues.interface';
+export declare const getIssuesFromLines: (lines: string[], regex: RegExp, issuesProviderPrepareLink: string) => ParsedIssue[];
+export declare const getIssuesFromLine: (line: string, regex: RegExp, issuesProviderPrepareLink: string) => ParsedIssue[];
+export declare const fetchIssueStatus: (issue: ParsedIssue) => Observable<FetchedIssue>;
+export declare const getAllIssuesFromMultipleStrings: (strings: string[], issuesProviders: IssuesProvider[]) => Observable<FetchedIssue[]>[];
+export declare const getIssuesFromString: (str: string, issuesProvider: IssuesProvider) => Observable<FetchedIssue>[];
+export declare const flattenIssues: () => (source: Observable<FetchedIssue[][]>) => Observable<FetchedIssue[]>;
+export declare const orderIssues: () => (source: Observable<FetchedIssue[]>) => Observable<FetchedIssue[]>;
+export declare const displayIssues: (issues: FetchedIssue[]) => void;
