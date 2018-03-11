@@ -12,7 +12,7 @@ notifications:
 node_js:
   - node
 script:
-  - yarn run test:prod && yarn run build
+  - yarn run test:prod && yarn run build && yarn run dist-to-bin
 after_success:
   - yarn run report-coverage
   - yarn run deploy-docs

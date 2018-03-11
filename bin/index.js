@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-require('../dist/pulse-issues.umd.js');
+require('./pulse-issues.umd.js');
