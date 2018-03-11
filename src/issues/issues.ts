@@ -159,5 +159,7 @@ const getIssuesAsTable = (issues: FetchedIssue[]): string => {
   return table([header, ...formatAndApplyColorOnStatus]);
 };
 
-export const displayIssuesAsTable = (issues: FetchedIssue[]) =>
-  console.log(getIssuesAsTable(issues));
+export const displayIssues = (issues: FetchedIssue[]) =>
+  console.log(
+    issues.length ? getIssuesAsTable(issues) : chalk.green('No issue found from this path'),
+  );
