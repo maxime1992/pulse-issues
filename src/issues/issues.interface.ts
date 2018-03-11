@@ -2,6 +2,7 @@ export interface IssuesProvider {
   name: string;
   baseUrl: string;
   regexStr: string;
+  prepareLink: string;
 }
 
 export enum IssueStatus {
@@ -16,6 +17,7 @@ export interface ParsedIssue {
   owner: string;
   repo: string;
   id: string;
+  link: string;
 }
 
 export interface FetchedIssue extends ParsedIssue {

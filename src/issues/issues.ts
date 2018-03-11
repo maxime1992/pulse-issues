@@ -4,19 +4,27 @@ import { Observable } from 'rxjs/Observable';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { from } from 'rxjs/observable/from';
 import { of } from 'rxjs/observable/of';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, reduce, switchMap, tap } from 'rxjs/operators';
 import splitLines from 'split-lines';
 import { table } from 'table';
 
 import { FetchedIssue, IssuesProvider, IssueStatus, ParsedIssue } from './issues.interface';
 
-export const getIssuesFromLines = (lines: string[], regex: RegExp): ParsedIssue[] =>
+export const getIssuesFromLines = (
+  lines: string[],
+  regex: RegExp,
+  issuesProviderPrepareLink: string,
+): ParsedIssue[] =>
   lines.reduce<ParsedIssue[]>((issues, line) => {
-    const issuesFromLine = getIssuesFromLine(line, regex);
+    const issuesFromLine = getIssuesFromLine(line, regex, issuesProviderPrepareLink);
     return issuesFromLine.length ? [...issues, ...issuesFromLine] : issues;
   }, []);
 
-export const getIssuesFromLine = (line: string, regex: RegExp): ParsedIssue[] => {
+export const getIssuesFromLine = (
+  line: string,
+  regex: RegExp,
+  issuesProviderPrepareLink: string,
+): ParsedIssue[] => {
   let match: RegExpExecArray | null;
   const issues: ParsedIssue[] = [];
 
@@ -24,6 +32,11 @@ export const getIssuesFromLine = (line: string, regex: RegExp): ParsedIssue[] =>
   while ((match = regex.exec(line))) {
     const [_, owner, repo, id] = match;
     issues.push({
+      link: getLink(issuesProviderPrepareLink, {
+        owner,
+        repo,
+        id,
+      }),
       owner,
       repo,
       id,
@@ -32,6 +45,12 @@ export const getIssuesFromLine = (line: string, regex: RegExp): ParsedIssue[] =>
 
   return issues;
 };
+
+const getLink = (prepareLink: string, data: { owner: string; repo: string; id: string }): string =>
+  prepareLink
+    .replace('{{owner}}', data.owner)
+    .replace('{{repo}}', data.repo)
+    .replace('{{id}}', data.id);
 
 export const fetchIssueStatus = (issue: ParsedIssue): Observable<FetchedIssue> => {
   return from(
@@ -89,10 +108,30 @@ export const getIssuesFromString = (
 ): Observable<FetchedIssue>[] => {
   const regexIssue: RegExp = new RegExp(issuesProvider.regexStr, 'g');
   const splitedLines: string[] = splitLines(str);
-  const issues: ParsedIssue[] = getIssuesFromLines(splitedLines, regexIssue);
+  const issues: ParsedIssue[] = getIssuesFromLines(
+    splitedLines,
+    regexIssue,
+    issuesProvider.prepareLink,
+  );
 
   return issues.map(issue => fetchIssueStatus(issue));
 };
+
+export const flattenIssues = () =>
+  reduce(
+    (issues: FetchedIssue[], nonFlattenedIssues: FetchedIssue[][]) => {
+      nonFlattenedIssues.map(nonFlattenedIssues =>
+        nonFlattenedIssues.map(issue => issues.push(issue)),
+      );
+      return issues;
+    },
+    [] as FetchedIssue[],
+  );
+
+export const orderIssues = () =>
+  map((issues: FetchedIssue[]): FetchedIssue[] =>
+    issues.sort((issue1, issue2) => issue1.link.localeCompare(issue2.link)),
+  );
 
 const mapStatusColors = {
   [IssueStatus.OPEN]: chalk.bgGreen.white,
@@ -106,11 +145,14 @@ const setColorByStatus = (status: IssueStatus) => mapStatusColors[status](status
 
 const getIssuesAsTable = (issues: FetchedIssue[]): string => {
   const formatAndApplyColorOnStatus = issues.reduce<any>(
-    (acc, issue) => [...acc, Object.values({ ...issue, status: setColorByStatus(issue.status) })],
+    (acc, issue) => [
+      ...acc,
+      [issue.owner, issue.repo, issue.id, setColorByStatus(issue.status), issue.link],
+    ],
     [],
   );
 
-  const header: string[] = ['Owner', 'Repo', 'ID', 'Status'].map(title =>
+  const header: string[] = ['Owner', 'Repo', 'ID', 'Status', 'Link'].map(title =>
     chalk.blueBright.bold(title),
   );
 
