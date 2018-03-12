@@ -23,7 +23,7 @@
   },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist",
+    "prebuild": "rimraf dist bin",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
     "dist-to-bin": "mv ./dist ./bin && cp ./src/index.js ./bin",
     "start": "rollup -c rollup.config.ts -w",
