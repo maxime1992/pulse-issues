@@ -13,6 +13,6 @@ notifications:
 node_js:
   - node
 script:
-  - yarn run prebuild && yarn run test:prod && yarn run build && yarn run dist-to-bin
+  - yarn run prebuild && yarn run test:prod && yarn run build && yarn run copy-index
 after_success:
   - yarn run semantic-release

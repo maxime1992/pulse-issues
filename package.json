@@ -3,11 +3,11 @@
   "version": "0.0.0-development",
   "description": "",
   "keywords": [],
-  "main": "dist/pulse-issues.umd.js",
-  "module": "dist/pulse-issues.es5.js",
-  "typings": "dist/types/pulse-issues.d.ts",
+  "main": "bin/pulse-issues.umd.js",
+  "module": "bin/pulse-issues.es5.js",
+  "typings": "bin/types/pulse-issues.d.ts",
   "files": [
-    "dist"
+    "bin"
   ],
   "author": "Maxime Robert <maxime.robert1992@gmail.com>",
   "repository": {
@@ -23,9 +23,9 @@
   },
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
-    "prebuild": "rimraf dist bin",
+    "prebuild": "rimraf bin",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts",
-    "dist-to-bin": "mv ./dist ./bin && cp ./src/index.js ./bin",
+    "copy-index": "cp ./src/index.js ./bin",
     "start": "rollup -c rollup.config.ts -w",
     "test": "jest",
     "test:watch": "jest --watch",
